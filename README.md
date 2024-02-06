@@ -34,3 +34,15 @@ The goal of this challenge is to evaluate candidates' technical skills in develo
 4.  Candidates should submit the GitHub repository link along with a brief description of
     themselves and their CV upon completion of the challenge to this email address:
     info@nomulabs.com.
+
+## Data Model
+
+In this simple social network we have two entities, User and Post, which relate to each other 1 to n. Both, user and post will have an ImageData property, which will use the Cloudinary schema, the service that will be used to store images.
+
+## Database
+
+A connection is made to Mongo through Mongoose, Mongoose, a library for Node that allows us to write queries with validations and middlewares, to narrow down the data that is received and sent.
+
+## Error management
+
+Create a class and a middleware to manage errors in the back and send a message according to the type of error,
