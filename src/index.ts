@@ -1,8 +1,8 @@
 import createDebug from 'debug';
 import { createServer } from 'http';
 import mongoose from 'mongoose';
-import { app } from './app';
-import { dataBaseConnect } from './dataBase/database.connect';
+import { app } from './app.js';
+import { dataBaseConnect } from './dataBase/database.connect.js';
 
 const debug = createDebug('NomuLabs: Index');
 
