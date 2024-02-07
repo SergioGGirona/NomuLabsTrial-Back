@@ -9,6 +9,7 @@ export type UserLogin = {
 export type UserNoID = UserLogin & {
   nickName: string;
   followers: User[];
+  usersFollowed: User[];
   bio: string;
   isPrivate: boolean;
   bornDate: Date;

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { HttpError } from '../types/error';
+import { HttpError } from '../types/error.js';
 
 export const errorMiddleware = (
   error: Error,
