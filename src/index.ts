@@ -1,4 +1,5 @@
 import createDebug from 'debug';
+import 'dotenv/config';
 import { createServer } from 'http';
 import mongoose from 'mongoose';
 import { app } from './app.js';

@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import cloudinaryBase from 'cloudinary';
 import createDebug from 'debug';
-import { HttpError } from '../types/error';
-import { CloudinaryError, ImageData } from '../types/image';
+import { HttpError } from '../types/error.js';
+import { CloudinaryError, ImageData } from '../types/image.js';
 
 const debug = createDebug('NomuLabs: Mediafiles');
 

@@ -70,9 +70,9 @@ describe('Given the class UsersRepository', () => {
     });
 
     test('Then, method search should be called and return data', async () => {
-      const mockExec = jest.fn().mockReturnValueOnce(mockUser);
+      const mockExec = jest.fn().mockReturnValueOnce([mockUser]);
 
-      UserModel.findOne = jest.fn().mockReturnValueOnce({
+      UserModel.find = jest.fn().mockReturnValueOnce({
         populate: jest.fn().mockReturnValue({
           exec: mockExec,
         }),
