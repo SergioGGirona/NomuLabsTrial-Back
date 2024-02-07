@@ -48,8 +48,14 @@ export class UsersRepository implements Repository<User> {
       });
   }
 
-  async search({ key, value }: { key: string; value: string }): Promise<User> {
-    const data = await UserModel.findOne({ [key]: value })
+  async search({
+    key,
+    value,
+  }: {
+    key: string;
+    value: unknown;
+  }): Promise<User[]> {
+    const data = await UserModel.find({ [key]: value })
       .populate('followers', { userName: 1 })
       .exec();
     if (!data)

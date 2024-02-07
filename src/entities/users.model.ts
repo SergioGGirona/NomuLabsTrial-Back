@@ -21,6 +21,7 @@ const userSchema = new Schema<User>({
   isPrivate: Boolean,
   bornDate: Date,
   followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  usersFollowed: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   avatar: {
     type: {
       publicId: { type: String },

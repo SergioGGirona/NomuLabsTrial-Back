@@ -5,5 +5,5 @@ export interface Repository<N extends { id: string }> {
   create(newData: Omit<N, 'id'>): Promise<N>;
   update(id: N['id'], newData: Partial<N>): Promise<N>;
   delete(id: string): Promise<void>;
-  search?({ key, value }: { key: string; value: string }): Promise<N>;
+  search?({ key, value }: { key: string; value: string }): Promise<N[]>;
 }

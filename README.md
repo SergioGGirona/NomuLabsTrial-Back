@@ -35,14 +35,21 @@ The goal of this challenge is to evaluate candidates' technical skills in develo
     themselves and their CV upon completion of the challenge to this email address:
     info@nomulabs.com.
 
-## Data Model
+### Data Model
 
 In this simple social network we have two entities, User and Post, which relate to each other 1 to n. Both, user and post will have an ImageData property, which will use the Cloudinary schema, the service that will be used to store images.
 
-## Database
+#### Data management
 
 A connection is made to Mongo through Mongoose, Mongoose, a library for Node that allows us to write queries with validations and middlewares, to narrow down the data that is received and sent.
 
-## Error management
+The repo makes the call to the database, while the controller manages the information that is sent and received.
 
-Create a class and a middleware to manage errors in the back and send a message according to the type of error,
+There are 2 middlewares that change the information received: the Auth and de mediaFiles.
+The first one encrypts the password and saves it already encrypted. It also has the method to check encrypted passwords and to provide tokens and check them. All focused on the register and login process.
+
+The second one is in charge of managing the images uploaded by the user, both for the moment of registering and if he/she wants to update it later on.
+
+### Error management
+
+It's managed with a class and a middleware to manage errors in the back and send a message according to the type of error,
