@@ -1,9 +1,17 @@
-import { User } from './user';
+import { Comment } from './comments';
+import { User, WithID } from './user';
 
-export type Post = {
+export type Post = WithID & {
   author: User;
-  content: string;
+  overview: string;
   createdAt: Date;
   likes: User[];
-  comments: Post[];
+  ingredients: string[];
+  referenceUrl: string;
+  steps: {
+    arrange: string;
+    boarding: string;
+    complete: string;
+  };
+  comments: Comment[];
 };

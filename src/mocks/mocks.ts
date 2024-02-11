@@ -1,3 +1,5 @@
+import { Comment } from '../entities/comments';
+import { Post } from '../entities/posts';
 import { User } from '../entities/user';
 
 export const mockUser = {
@@ -11,3 +13,27 @@ export const mockUser = {
   avatar: {},
   id: '01',
 } as unknown as User;
+
+export const mockPost = {
+  author: {
+    userName: 'Luffy',
+  },
+  overview: 'Test for a post',
+  likes: [],
+  ingredients: ['test', 'testb'],
+  referenceUrl: 'Shonen',
+  steps: {
+    arrange: 'Test a',
+    boarding: 'Test b',
+    complete: 'Test c',
+  },
+  comments: [{ owner: 'Zoro' }],
+  id: '001',
+} as unknown as Post;
+
+export const mockComment = {
+  isResponseTo: { author: 'Zoro' },
+  owner: { userName: 'Luffy' },
+  description: 'Test for a comment',
+  likes: [],
+} as unknown as Comment;
