@@ -1,3 +1,4 @@
+import { Comment } from './comments';
 import { User, WithID } from './user';
 
 export type Post = WithID & {
@@ -12,5 +13,5 @@ export type Post = WithID & {
     boarding: string;
     complete: string;
   };
-  comments: Post[];
+  comments: Comment[];
 };

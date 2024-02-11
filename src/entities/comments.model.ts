@@ -2,9 +2,6 @@ import { Schema, model } from 'mongoose';
 import { Comment } from './comments';
 
 const commentSchema = new Schema<Comment>({
-  isResponseTo: { type: Schema.Types.ObjectId, ref: 'Post' },
-  owner: { type: Schema.Types.ObjectId, ref: 'User' },
-
   content: {
     type: String,
     required: true,

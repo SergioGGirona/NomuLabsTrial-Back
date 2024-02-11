@@ -1,9 +1,6 @@
-import { Post } from './posts';
-import { User } from './user';
+import { User, WithID } from './user';
 
-export type Comment = {
-  isResponseTo: Post;
-  owner: User;
+export type Comment = WithID & {
   content: string;
   createdAt: Date;
   likes: User[];
