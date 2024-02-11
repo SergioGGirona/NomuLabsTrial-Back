@@ -18,7 +18,10 @@ const userSchema = new Schema<User>({
   },
   nickName: String,
   bio: String,
-  isPrivate: Boolean,
+  isPrivate: {
+    type: Boolean,
+    default: false,
+  },
   bornDate: Date,
   followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   usersFollowed: [{ type: Schema.Types.ObjectId, ref: 'User' }],
@@ -31,6 +34,8 @@ const userSchema = new Schema<User>({
       url: { type: String },
     },
   },
+  posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 });
 
 userSchema.set('toJSON', {

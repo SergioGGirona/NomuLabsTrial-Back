@@ -36,7 +36,7 @@ export class UserController extends Controller<User> {
   }
 
   async login(req: Request, res: Response, next: NextFunction) {
-    const { userName, password } = req.body as unknown as UserLogin;
+    const { userName, password } = req.body as UserLogin;
     const error = new HttpError(401, 'Unauthorized', 'Login unauthorized');
     try {
       if (!this.repository.search) throw error;
@@ -100,6 +100,22 @@ export class UserController extends Controller<User> {
       const updatedUser = await this.repository.update(req.body.id, req.body);
       res.status(201);
       res.json(updatedUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async search(req: Request, res: Response, next: NextFunction) {
+    const { userName } = req.body;
+    const error = new HttpError(401, 'Unauthorized', 'Search error');
+    try {
+      if (!this.repository.search) throw error;
+      const data = await this.repository.search({
+        key: 'userName',
+        value: userName,
+      });
+      if (!data) throw error;
+      res.json(data);
     } catch (error) {
       next(error);
     }
