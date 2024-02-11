@@ -7,7 +7,7 @@ const postSchema = new Schema<Post>({
     ref: 'User',
     required: true,
   },
-  content: { type: String, required: true },
+  overview: { type: String },
   createdAt: { type: Date, required: true },
   likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   ingredients: [String],

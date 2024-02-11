@@ -18,7 +18,7 @@ export const mockPost = {
   author: {
     userName: 'Luffy',
   },
-  content: 'Test for a post',
+  overview: 'Test for a post',
   likes: [],
   ingredients: ['test', 'testb'],
   referenceUrl: 'Shonen',
@@ -34,6 +34,6 @@ export const mockPost = {
 export const mockComment = {
   isResponseTo: { author: 'Zoro' },
   owner: { userName: 'Luffy' },
-  content: 'Test for a comment',
+  description: 'Test for a comment',
   likes: [],
 } as unknown as Comment;

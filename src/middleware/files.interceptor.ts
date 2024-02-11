@@ -7,11 +7,12 @@ export class FilesInterceptor {
   singleFileStore(fileName: string) {
     debug('Called multer');
     const storage = multer.diskStorage({
-      destination: './NomuLabsTrial',
+      destination: './uploads',
       filename(req, file, callback) {
-        callback(null, file.originalname);
+        callback(null, 'Cookbook_' + file.originalname);
       },
     });
+
     const upload = multer({ storage });
     const middleware = upload.single(fileName);
     return (req: Request, res: Response, next: NextFunction) => {

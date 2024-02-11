@@ -2,7 +2,7 @@ import { User, WithID } from './user';
 
 export type Post = WithID & {
   author: User;
-  content: string;
+  overview: string;
   createdAt: Date;
   likes: User[];
   ingredients: string[];
