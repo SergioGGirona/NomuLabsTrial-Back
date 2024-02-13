@@ -21,4 +21,21 @@ export class FilesInterceptor {
       req.body = { ...previousFile, ...req.body };
     };
   }
+
+  noFileStore() {
+    debug('Called multer with no file storage');
+    const upload = multer();
+
+    return (req: Request, res: Response, next: NextFunction) => {
+      const previousFile = req.body;
+      upload.none()(req, res, (err: any) => {
+        if (err) {
+          return next(err);
+        }
+
+        req.body = { ...previousFile, ...req.body };
+        next();
+      });
+    };
+  }
 }

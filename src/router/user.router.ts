@@ -18,11 +18,7 @@ debug('Instantiated');
 
 userRouter.patch('/login', userController.login.bind(userController));
 
-userRouter.get(
-  '/',
-  interceptor.authorization.bind(interceptor),
-  userController.search.bind(userController)
-);
+userRouter.get('/search/:userName', userController.search.bind(userController));
 
 userRouter.get(
   '/users',

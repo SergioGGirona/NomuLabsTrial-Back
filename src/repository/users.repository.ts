@@ -53,9 +53,10 @@ export class UsersRepository implements Repository<User> {
     value,
   }: {
     key: string;
-    value: unknown;
+    value: string;
   }): Promise<User[]> {
-    const data = await UserModel.find({ [key]: value })
+    const regex = new RegExp(value.toLowerCase(), 'i');
+    const data = await UserModel.find({ [key]: { $regex: regex } })
       .populate('followers', { userName: 1 })
       .exec();
     if (!data)
