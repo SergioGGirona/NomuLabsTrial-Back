@@ -15,7 +15,8 @@ export class AuthInterceptor {
         throw new HttpError(498, 'Invalid token', 'No token provided');
       }
 
-      req.body.validatedId = Auth.verifyToken(token).id;
+      const formData = { validatedId: Auth.verifyToken(token).id, ...req.body };
+      req.body = formData;
       next();
     } catch (error) {
       next(error);

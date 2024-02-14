@@ -106,7 +106,7 @@ export class UserController extends Controller<User> {
   }
 
   async search(req: Request, res: Response, next: NextFunction) {
-    const { userName } = req.body;
+    const { userName } = req.params;
     const error = new HttpError(401, 'Unauthorized', 'Search error');
     try {
       if (!this.repository.search) throw error;
