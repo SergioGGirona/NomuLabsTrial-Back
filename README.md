@@ -25,19 +25,11 @@ The goal of this challenge is to evaluate candidates' technical skills in develo
 5. Implement direct messaging functionality between users.
 6. Apply responsive design for mobile devices.
 
-## Instructions:
-
-1.  Candidates should create a private GitHub repository for this project and share access with the evaluator.
-2.  Candidates have a timeframe of 10 days to complete the technical challenge.
-3.  Candidates should create a README.md with basic documentation on how to set up and run
-    the project including a list of the functionalities.
-4.  Candidates should submit the GitHub repository link along with a brief description of
-    themselves and their CV upon completion of the challenge to this email address:
-    info@nomulabs.com.
+## The backend
 
 ### Data Model
 
-In this simple social network we have two entities, User and Post, which relate to each other 1 to n. Both, user and post will have an ImageData property, which will use the Cloudinary schema, the service that will be used to store images.
+In this simple social network we have two entities, User, Post and Comment which relate to each other 1 to n and 1 to n (user - post/comment) and 1 to n (post-comment). User will have an ImageData property, which will use the Cloudinary schema, the service that will be used to store images. But Comment and Post will no use cloudinary so multer will only be a middleware for form-data.
 
 #### Data management
 
@@ -52,4 +44,11 @@ The second one is in charge of managing the images uploaded by the user, both fo
 
 ### Error management
 
-It's managed with a class and a middleware to manage errors in the back and send a message according to the type of error,
+It's managed with a class and a middleware to manage errors in the back and send a message according to the type of error.
+
+### Data movement
+
+The requests will arrive at the server and the app will distribute them according to whether they are for users, posts or comments. Inside, the routes are split up in the CRUD and, depending on the type of request, an authorisation or authentication interceptor is used.
+
+The request is also passed to the controller, which coordinates the application logic and calls the repository to send the appropriate responses.
+Typing and error handling is present at all times in order to narrow down the data received and sent.
