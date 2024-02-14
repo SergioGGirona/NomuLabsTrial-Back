@@ -6,8 +6,13 @@ const commentSchema = new Schema<Comment>({
     type: String,
     required: true,
   },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   createdAt: Date,
-  likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  likes: [{ type: String }],
 });
 
 commentSchema.set('toJSON', {
