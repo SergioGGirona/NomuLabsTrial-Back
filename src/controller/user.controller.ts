@@ -124,8 +124,8 @@ export class UserController extends Controller<User> {
   async follow(request: Request, response: Response, next: NextFunction) {
     try {
       const { validatedId } = request.body;
-
       const newFollowingUserId = request.body.id;
+
       if (validatedId === newFollowingUserId) {
         throw new Error('You cant add yourself');
       }
@@ -142,8 +142,8 @@ export class UserController extends Controller<User> {
         throw new Error('This user is already in your usersToFollow list');
       }
 
-      newFollowingUser.followers.push(currentUser);
-      currentUser.usersFollowed.push(newFollowingUser);
+      await newFollowingUser.followers.push(currentUser);
+      await currentUser.usersFollowed.push(newFollowingUser);
 
       await this.repository.update(currentUser.id, currentUser);
       await this.repository.update(newFollowingUser.id, newFollowingUser);
