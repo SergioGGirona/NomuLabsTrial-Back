@@ -9,6 +9,7 @@ const debug = createDebug('NomuLabs: Interceptor');
 export class AuthInterceptor {
   authorization(req: Request, res: Response, next: NextFunction) {
     debug('Called authorization');
+
     try {
       const token = req.get('Authorization')?.split(' ')[1];
       if (!token) {

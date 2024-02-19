@@ -52,3 +52,7 @@ The requests will arrive at the server and the app will distribute them accordin
 
 The request is also passed to the controller, which coordinates the application logic and calls the repository to send the appropriate responses.
 Typing and error handling is present at all times in order to narrow down the data received and sent.
+
+### Currently
+
+The comments in the post have not been implemented, the next steps will be to create the model on the front end and to build the CRUD methods into it.

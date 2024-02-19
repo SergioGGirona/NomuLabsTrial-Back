@@ -120,4 +120,70 @@ export class UserController extends Controller<User> {
       next(error);
     }
   }
+
+  async follow(request: Request, response: Response, next: NextFunction) {
+    try {
+      const { validatedId } = request.body;
+      const newFollowingUserId = request.body.id;
+
+      if (validatedId === newFollowingUserId) {
+        throw new Error('You cant add yourself');
+      }
+
+      const currentUser = await this.repository.getById(validatedId);
+      const newFollowingUser = await this.repository.getById(
+        newFollowingUserId
+      );
+
+      const currentFollow = currentUser.usersFollowed.find(
+        (item) => item.id === newFollowingUserId
+      );
+      if (currentFollow) {
+        throw new Error('This user is already in your usersToFollow list');
+      }
+
+      await newFollowingUser.followers.push(currentUser);
+      await currentUser.usersFollowed.push(newFollowingUser);
+
+      await this.repository.update(currentUser.id, currentUser);
+      await this.repository.update(newFollowingUser.id, newFollowingUser);
+
+      response.json(currentUser);
+      response.status(201);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async unfollow(request: Request, response: Response, next: NextFunction) {
+    try {
+      const { validatedId } = request.body;
+      const userIdToUnfollow = request.body.id;
+
+      if (validatedId === userIdToUnfollow) {
+        throw new Error('You cant unfollow yourself');
+      }
+
+      const currentUser = await this.repository.getById(validatedId);
+      const userToUnfollow = await this.repository.getById(userIdToUnfollow);
+
+      const currentUnfollow = currentUser.usersFollowed.find(
+        (item) => item.id === userIdToUnfollow
+      );
+      if (currentUnfollow) {
+        throw new Error('This user is already in your usersToFollow list');
+      }
+
+      currentUser.usersFollowed.filter((user) => user.id !== userIdToUnfollow);
+      userToUnfollow.followers.filter((user) => user.id !== validatedId);
+
+      await this.repository.update(currentUser.id, currentUser);
+      await this.repository.update(userToUnfollow.id, userToUnfollow);
+
+      response.json(currentUser);
+      response.status(201);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

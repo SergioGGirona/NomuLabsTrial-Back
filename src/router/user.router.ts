@@ -42,9 +42,15 @@ userRouter.post(
 );
 
 userRouter.patch(
-  '/:id',
+  '/follow',
   interceptor.authorization.bind(interceptor),
-  userController.update.bind(userController)
+  userController.follow.bind(userController)
+);
+
+userRouter.patch(
+  '/unfollow',
+  interceptor.authorization.bind(interceptor),
+  userController.unfollow.bind(userController)
 );
 
 userRouter.patch(
@@ -54,6 +60,11 @@ userRouter.patch(
   userController.update.bind(userController)
 );
 
+userRouter.patch(
+  '/:id',
+  interceptor.authorization.bind(interceptor),
+  userController.update.bind(userController)
+);
 userRouter.delete(
   '/:id',
   interceptor.authorization.bind(interceptor),

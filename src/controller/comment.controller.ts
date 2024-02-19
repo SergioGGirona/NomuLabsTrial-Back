@@ -24,6 +24,7 @@ export class CommentsController extends Controller<Comment> {
         content: req.body.content,
         createdAt: new Date(),
         likes: [],
+        owner: req.body.validatedId,
       };
 
       const newComment = await this.repository.create(newCommentary);
