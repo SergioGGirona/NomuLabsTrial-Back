@@ -7,11 +7,27 @@ export const mockUser = {
   password: 'luffy',
   email: 'luffy@nomulabs.com',
   nickName: 'luffy',
-  followers: [],
+  followers: [{ id: '02' }, { id: '03' }],
+  usersFollowed: [{ id: '02' }, { id: '03' }],
   bio: 'Test for an user',
   isPrivate: true,
   avatar: {},
   id: '01',
+  posts: [{ id: '001' }],
+  comments: [{ id: '0001' }],
+} as unknown as User;
+export const mockUser2 = {
+  userName: 'zoro',
+  password: 'zoro',
+  email: 'zoro@nomulabs.com',
+  nickName: 'zoro',
+  followers: [],
+  bio: 'Test for an user',
+  isPrivate: false,
+  avatar: {},
+  id: '02',
+  posts: [{ id: '002' }],
+  comments: [{ id: '0002' }],
 } as unknown as User;
 
 export const mockPost = {
@@ -29,11 +45,14 @@ export const mockPost = {
   },
   comments: [{ owner: 'Zoro' }],
   id: '001',
+  followers: [{ id: '02' }, { id: '03' }],
+  usersFollowed: [{ id: '02' }, { id: '03' }],
 } as unknown as Post;
 
 export const mockComment = {
   isResponseTo: { author: 'Zoro' },
   owner: { userName: 'Luffy' },
   description: 'Test for a comment',
+  ID: '0001',
   likes: [],
 } as unknown as Comment;

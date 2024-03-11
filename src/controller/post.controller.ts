@@ -45,15 +45,17 @@ export class PostsController extends Controller<Post> {
     try {
       const { id } = req.params;
       const { validatedId } = req.body;
+
       const userRepo = new UsersRepository();
       const user = await userRepo.getById(validatedId);
       const newUserPosts = user.posts.filter((post) => post.id !== id);
       user.posts = newUserPosts;
       userRepo.update(user.id, user);
+
       await this.repository.delete(id);
 
-      res.json({});
       res.status(204);
+      res.json({});
     } catch (error) {
       next(error);
     }

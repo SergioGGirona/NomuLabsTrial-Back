@@ -8,6 +8,7 @@ export type Post = WithID & {
   likes: User[];
   ingredients: string[];
   referenceUrl: string;
+  aproxTime: number;
   steps: {
     arrange: string;
     boarding: string;

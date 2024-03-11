@@ -63,6 +63,7 @@ describe('Given the class UserController', () => {
       expect(mockRepo.update).toHaveBeenCalled();
       expect(mockResponse.json).toHaveBeenCalledWith(mockUser);
     });
+
     test('Then, you should call delete from father and return data', async () => {
       (mockRepo.getById as jest.Mock).mockResolvedValueOnce(mockUser);
 
@@ -123,13 +124,99 @@ describe('Given the class UserController', () => {
       } as unknown as Request;
       const mockResponse = {
         json: jest.fn().mockResolvedValueOnce(mockUser),
-        status: 201,
+        status: jest.fn().mockResolvedValueOnce(201),
       } as unknown as Response;
       const mockNext = jest.fn() as NextFunction;
 
       await userController.register(mockRequest, mockResponse, mockNext);
       expect(mockRepo.create).toHaveBeenCalled();
-      expect(mockResponse.status).toEqual(201);
+      expect(mockResponse.status).toHaveBeenCalledWith(201);
+    });
+
+    test('Then, you should call updateProfilePhoto', async () => {
+      (mockRepo.update as jest.Mock).mockResolvedValueOnce(mockUser);
+
+      const mockRequest = {
+        file: { url: '01', filename: 'avatar' },
+        body: { avatar: 'Luffy', id: '01' },
+      } as unknown as Request;
+
+      const mockResponse = {
+        json: jest.fn().mockResolvedValueOnce(mockUser),
+        status: jest.fn().mockResolvedValueOnce(201),
+      } as unknown as Response;
+
+      const mockNext = jest.fn() as NextFunction;
+      const mockCloudinaryService = {
+        uploadPhoto: jest.fn().mockResolvedValue(true),
+      } as unknown as CloudinaryService;
+
+      userController.cloudinary = mockCloudinaryService;
+      await userController.updateProfilePhoto(
+        mockRequest,
+        mockResponse,
+        mockNext
+      );
+
+      expect(mockRepo.update).toHaveBeenCalled();
+    });
+
+    test('Then, you should call search with no errors', async () => {
+      (mockRepo.search as jest.Mock).mockResolvedValueOnce([mockUser]);
+
+      const mockRequest = {
+        params: { userName: 'Luffy' },
+        body: { key: 'userName', value: 'Luffy' },
+      } as unknown as Request;
+      const mockResponse = {
+        json: jest.fn().mockResolvedValueOnce(mockUser),
+        status: jest.fn(),
+      } as unknown as Response;
+
+      const mockNext = jest.fn() as NextFunction;
+
+      await userController.search(mockRequest, mockResponse, mockNext);
+      expect(mockRepo.search).toHaveBeenCalled();
+      expect(mockRepo.search).toBeCalledWith({
+        key: 'userName',
+        value: 'Luffy',
+      });
+    });
+
+    test('Then, you should call follow', async () => {
+      (mockRepo.getById as jest.Mock).mockResolvedValueOnce(mockUser);
+      (mockRepo.update as jest.Mock).mockResolvedValueOnce(mockUser);
+
+      const mockRequest = {
+        params: { id: '02' },
+        body: { name: 'Zoro', validatedId: '02', id: '03' },
+      } as unknown as Request;
+      const mockResponse = {
+        json: jest.fn(),
+        status: jest.fn(),
+      } as unknown as Response;
+      const mockNext = jest.fn() as NextFunction;
+
+      await userController.follow(mockRequest, mockResponse, mockNext);
+      expect(mockRepo.update).toHaveBeenCalled();
+    });
+
+    test('Then, you should call unfollow', async () => {
+      (mockRepo.getById as jest.Mock).mockResolvedValueOnce(mockUser);
+      (mockRepo.update as jest.Mock).mockResolvedValueOnce(mockUser);
+
+      const mockRequest = {
+        params: { id: '02' },
+        body: { name: 'Zoro', validatedId: '02', id: '03' },
+      } as unknown as Request;
+      const mockResponse = {
+        json: jest.fn(),
+        status: jest.fn(),
+      } as unknown as Response;
+      const mockNext = jest.fn() as NextFunction;
+
+      await userController.unfollow(mockRequest, mockResponse, mockNext);
+      expect(mockRepo.update).toHaveBeenCalled();
     });
   });
 
@@ -146,7 +233,6 @@ describe('Given the class UserController', () => {
     const userController = new UserController(mockRepo);
     const mockData = {
       id: '1',
-      firsName: 'Luffy',
       userName: 'Luffy',
       password: '1234',
     } as unknown as User;
@@ -155,6 +241,9 @@ describe('Given the class UserController', () => {
       params: { id: '1' },
       body: { userName: 'Luffy', password: '1234' },
     } as unknown as Request;
+    const mockResponse = {
+      json: jest.fn(),
+    } as unknown as Response;
 
     test('should call the next error function of getAll', async () => {
       const mockResponse = {
@@ -198,6 +287,47 @@ describe('Given the class UserController', () => {
       await userController.update(mockRequest, mockResponse, mockNext);
       expect(mockRepo.update).toHaveBeenCalled();
       expect(mockNext).toHaveBeenCalledWith(new Error('update Error'));
+    });
+
+    test('should call the next error function of register', async () => {
+      const mockNext = jest.fn();
+
+      await userController.register(mockRequest, mockResponse, mockNext);
+
+      expect(mockRepo.create).not.toHaveBeenCalled();
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    test('should call the next error function of updateProfilePhoto', async () => {
+      const mockNext = jest.fn();
+
+      await userController.updateProfilePhoto(
+        mockRequest,
+        mockResponse,
+        mockNext
+      );
+
+      expect(mockRepo.update).toHaveBeenCalled();
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    test('should call the next error function of search', async () => {
+      const mockNext = jest.fn();
+
+      await userController.search(mockRequest, mockResponse, mockNext);
+
+      expect(mockRepo.update).toHaveBeenCalled();
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    test('should call the next error function of follow and unfollow', async () => {
+      const mockNext = jest.fn();
+
+      await userController.follow(mockRequest, mockResponse, mockNext);
+      await userController.unfollow(mockRequest, mockResponse, mockNext);
+
+      expect(mockRepo.update).toHaveBeenCalled();
+      expect(mockNext).toHaveBeenCalled();
     });
   });
 });

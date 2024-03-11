@@ -9,7 +9,6 @@ const debug = createDebug('NomuLabs: Interceptor');
 export class AuthInterceptor {
   authorization(req: Request, res: Response, next: NextFunction) {
     debug('Called authorization');
-
     try {
       const token = req.get('Authorization')?.split(' ')[1];
       if (!token) {
@@ -18,6 +17,7 @@ export class AuthInterceptor {
 
       const formData = { validatedId: Auth.verifyToken(token).id, ...req.body };
       req.body = formData;
+
       next();
     } catch (error) {
       next(error);
@@ -26,6 +26,7 @@ export class AuthInterceptor {
 
   async usersAuthentication(req: Request, res: Response, next: NextFunction) {
     const userId = req.body.validatedId;
+    debug('Called authentication');
     try {
       const usersRepository = new UsersRepository();
       const user = await usersRepository.getById(userId);

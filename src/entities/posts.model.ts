@@ -12,6 +12,7 @@ const postSchema = new Schema<Post>({
   likes: [{ type: String }],
   ingredients: [String],
   referenceUrl: String,
+  aproxTime: Number,
   steps: {
     arrange: String,
     boarding: String,

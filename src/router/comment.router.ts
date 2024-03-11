@@ -10,6 +10,11 @@ const authInterceptor = new AuthInterceptor();
 export const commentRouter = createRouter();
 
 commentRouter.get('/', commentsController.getAll.bind(commentsController));
+commentRouter.get(
+  '/search/:id',
+  commentsController.getPostComments.bind(commentsController)
+);
+
 commentRouter.get('/:id', commentsController.getById.bind(commentsController));
 
 commentRouter.post(
