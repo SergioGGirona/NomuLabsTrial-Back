@@ -127,7 +127,7 @@ export class UserController extends Controller<User> {
       const newFollowingUserId = request.body.id;
 
       if (validatedId === newFollowingUserId) {
-        throw new Error('You cant add yourself');
+        throw new Error("You can't add yourself");
       }
 
       const currentUser = await this.repository.getById(validatedId);

@@ -1,5 +1,6 @@
 import { Comment } from '../entities/comments.js';
 import { CommentModel } from '../entities/comments.model.js';
+import { PostModel } from '../entities/posts.model.js';
 import { HttpError } from '../types/error.js';
 import { Repository } from './repository.js';
 
@@ -18,7 +19,7 @@ export class CommentsRepository implements Repository<Comment> {
       .populate('isResponseTo', { author: 1 })
       .exec();
     if (!data) {
-      throw new HttpError(404, 'Not found', 'Comment not found.', {
+      throw new HttpError(404, 'Not found', 'Comment not found!', {
         cause: 'Trying getByID method',
       });
     }
@@ -51,5 +52,24 @@ export class CommentsRepository implements Repository<Comment> {
       throw new HttpError(404, 'Not Found', 'Comment not found in system', {
         cause: 'Trying delete method',
       });
+  }
+
+  async searchCommentsByPost(postId: string): Promise<Comment[]> {
+    const post = await PostModel.findById(postId)
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'owner',
+          select: 'userName',
+        },
+      })
+      .exec();
+    if (!post) {
+      throw new HttpError(404, 'Not Found', 'Post not found', {
+        cause: 'Trying to search comments by post id',
+      });
+    }
+
+    return post.comments;
   }
 }

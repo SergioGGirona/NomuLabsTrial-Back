@@ -15,19 +15,17 @@ export class CommentsController extends Controller<Comment> {
     try {
       const userRepo = new UsersRepository();
       const postRepo = new PostsRepository();
-
       const user = await userRepo.getById(req.body.validatedId);
       const post = await postRepo.getById(req.params.id);
-      console.log('user', user);
 
-      const newCommentary = {
+      const newCommentData = {
         content: req.body.content,
         createdAt: new Date(),
         likes: [],
         owner: req.body.validatedId,
       };
 
-      const newComment = await this.repository.create(newCommentary);
+      const newComment = await this.repository.create(newCommentData);
       user.comments.push(newComment);
       post.comments.push(newComment);
 
@@ -70,6 +68,27 @@ export class CommentsController extends Controller<Comment> {
 
       res.json({});
       res.status(204);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getPostComments(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    const error = new HttpError(401, 'No post id', 'Search error');
+    try {
+      if (!this.repository.searchCommentsByPost) throw error;
+      const data = await this.repository.searchCommentsByPost(id);
+
+      if (!data) {
+        throw new HttpError(
+          404,
+          'No comments found',
+          'Comments not found for the specified post id'
+        );
+      }
+
+      res.json(data);
     } catch (error) {
       next(error);
     }

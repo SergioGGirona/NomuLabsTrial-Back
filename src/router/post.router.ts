@@ -32,5 +32,5 @@ postRouter.delete(
   '/:id',
   authInterceptor.authorization.bind(authInterceptor),
   authInterceptor.usersAuthentication.bind(authInterceptor),
-  postsController.update.bind(postsController)
+  postsController.delete.bind(postsController)
 );
