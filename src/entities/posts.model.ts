@@ -19,6 +19,17 @@ const postSchema = new Schema<Post>({
     complete: String,
   },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  images: [
+    {
+      type: {
+        publicId: { type: String },
+        width: { type: Number },
+        height: { type: Number },
+        format: { type: String },
+        url: { type: String },
+      },
+    },
+  ],
 });
 
 postSchema.set('toJSON', {

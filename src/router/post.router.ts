@@ -17,7 +17,7 @@ postRouter.get('/:id', postsController.getById.bind(postsController));
 postRouter.post(
   '/add',
   authInterceptor.authorization.bind(authInterceptor),
-  interceptor.noFileStore().bind(interceptor),
+  interceptor.multiFilesStore('images').bind(interceptor),
   postsController.create.bind(postsController)
 );
 

@@ -2,16 +2,34 @@ import { NextFunction, Request, Response } from 'express';
 import { Post } from '../entities/posts.js';
 import { PostsRepository } from '../repository/posts.repository.js';
 import { UsersRepository } from '../repository/users.repository.js';
+import { CloudinaryService } from '../services/media.files.js';
 import { HttpError } from '../types/error.js';
 import { Controller } from './controller.js';
 
 export class PostsController extends Controller<Post> {
+  cloudinary: CloudinaryService;
   constructor(protected repository: PostsRepository) {
     super(repository);
+    this.cloudinary = new CloudinaryService();
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
+      req.body.images ||= [];
+
+      if (req.files instanceof Array && req.files.length > 0) {
+        const { files } = req;
+        for (const file of files) {
+          const newPath = file.destination + '/' + file.filename;
+          // eslint-disable-next-line no-await-in-loop
+          const postPhoto = await this.cloudinary.uploadPhoto(newPath);
+          console.log('primer push antes');
+          req.body.images.push(postPhoto);
+        }
+      } else {
+        req.body.images = [];
+      }
+
       const { validatedId } = req.body;
       const userRepo = new UsersRepository();
       const user = await userRepo.getById(validatedId);
@@ -19,8 +37,10 @@ export class PostsController extends Controller<Post> {
 
       const date = new Date();
       req.body.createdAt = date;
+
       const newPost = await this.repository.create(req.body);
       user.posts.push(newPost);
+
       userRepo.update(user.id, user);
 
       res.status(201);
