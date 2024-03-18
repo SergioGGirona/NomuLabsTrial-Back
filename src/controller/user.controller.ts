@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { User, UserLogin } from '../entities/user.js';
 import { UsersRepository } from '../repository/users.repository.js';
 import { Auth } from '../services/auth.js';
-import { CloudinaryService } from '../services/media.files.js';
+import { CloudinaryService, defaultAvatar } from '../services/media.files.js';
 import { HttpError } from '../types/error.js';
 import { TokenPayload } from '../types/token.js';
 import { Controller } from './controller.js';
@@ -17,16 +17,15 @@ export class UserController extends Controller<User> {
 
   async register(req: Request, res: Response, next: NextFunction) {
     try {
-      if (!req.file) {
-        req.body.avatar =
-          'https://res.cloudinary.com/dn5pxi50z/image/upload/v1707304852/rez0ca29trmyzbyg55ow.png';
+      if (req.file) {
+        const newPath = req.file!.destination + '/' + req.file!.filename;
+        const photoData = await this.cloudinary.uploadPhoto(newPath);
+        req.body.avatar = photoData;
+      } else {
+        req.body.avatar = defaultAvatar;
       }
 
       req.body.password = await Auth.hash(req.body.password);
-      const newPath = req.file!.destination + '/' + req.file!.filename;
-      const photoData = await this.cloudinary.uploadPhoto(newPath);
-      req.body.avatar = photoData;
-
       const newUser = await this.repository.create(req.body);
       res.status(201);
       res.json(newUser);

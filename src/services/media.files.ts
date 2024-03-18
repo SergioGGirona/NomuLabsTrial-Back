@@ -5,8 +5,20 @@ import { HttpError } from '../types/error.js';
 import { CloudinaryError, ImageData } from '../types/image.js';
 
 const debug = createDebug('NomuLabs: Mediafiles');
-
+export const defaultAvatar = {
+  publicId: 'cookBook_default_avatar_2024',
+  width: 1280,
+  height: 1280,
+  format: 'PNG',
+  url: 'https://res.cloudinary.com/dn5pxi50z/image/upload/v1707321036/cookBook_default_avatar_2024.png',
+};
 export class CloudinaryService {
+  options = {
+    use_filename: true,
+    unique_filename: true,
+    overwrite: true,
+  };
+
   private cloudinary: typeof cloudinaryBase.v2;
   constructor() {
     this.cloudinary = cloudinaryBase.v2;
@@ -15,13 +27,11 @@ export class CloudinaryService {
   }
 
   async uploadPhoto(imagePath: string) {
-    const options = {
-      use_filename: true,
-      unique_filename: true,
-      overwrite: true,
-    };
     try {
-      const upload = await this.cloudinary.uploader.upload(imagePath, options);
+      const upload = await this.cloudinary.uploader.upload(
+        imagePath,
+        this.options
+      );
       debug('Photo Uploaded');
 
       const photoData: ImageData = {

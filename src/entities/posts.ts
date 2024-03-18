@@ -15,4 +15,5 @@ export type Post = WithID & {
     complete: string;
   };
   comments: Comment[];
+  images: ImageData[];
 };
