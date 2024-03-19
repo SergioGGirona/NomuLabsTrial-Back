@@ -10,22 +10,15 @@ The goal of this challenge is to evaluate candidates' technical skills in develo
 2. Implement user authentication, allowing users to register and log in.
 3. Provide a user search functionality by username.
 4. Users should be able to follow and unfollow other users.
-5. Users should be able to view a feed of content that includes posts from the users they
-   follow.
+5. Users should be able to view a feed of content
 6. Provide an option for users to configure their profiles as public or private.
 7. Implement a commenting system on posts.
 8. Implement the ability to like posts.
 
-## Extra Points (Optional):
-
-1. Implement a notification system to inform users of new followers, comments, and likes.
-2. Allow users to upload and manage profile pictures.
-3. Implement a pagination or infinite scroll system to display posts in the feed.
-4. Add the ability to edit and delete posts.
-5. Implement direct messaging functionality between users.
-6. Apply responsive design for mobile devices.
-
 ## The backend
+
+Uploaded in Render:
+https://nomulabstrial-back.onrender.com
 
 ### Data Model
 
